@@ -3,7 +3,7 @@
 
 Before running the server, you need to download the trained model weights and config file:
 
-🔗 **[Download model weights and config](https://drive.google.com/file/d/FILE_ID/view?usp=sharing)**
+🔗 **[Download model weights and config](https://drive.google.com/drive/folders/1vg3_r5jUPluVrpVkmcILy-Xnw0Uqubgk?usp=sharing)**
 
 After downloading, place the files in the `detectron2_model/[plantName_model]` folder.  
 Example folder structure:
