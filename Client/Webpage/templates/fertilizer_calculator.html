@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Fertilizer Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            background-image: url("{{ url_for('static', filename='images/abcd.jpg') }}");
+        }
+        h1 {
+            color: #000000;
+            text-align: center;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.954);
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #1a5f7a;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #14475e;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3fe;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Indian Fertilizer Calculator</h1>
+    <form id="fertilizerForm">
+        <label for="crop">Crop Type:</label>
+        <select id="crop" required>
+            <option value="">Select a crop</option>
+            <option value="tomato">Tomato</option>
+            <option value="potato">Potato</option>
+            <option value="rice">Rice</option>
+            <option value="wheat">Wheat</option>
+            <option value="maize">Maize</option>
+        </select>
+
+        <label for="soilType">Soil Type:</label>
+        <select id="soilType" required>
+            <option value="">Select soil type</option>
+            <option value="alluvial">Alluvial</option>
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="laterite">Laterite</option>
+        </select>
+
+        <label for="area">Field Size (in hectares):</label>
+        <input type="number" id="area" min="0.1" step="0.1" required>
+
+        <button type="submit">Calculate Fertilizer</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fertilizerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const crop = document.getElementById('crop').value;
+            const soilType = document.getElementById('soilType').value;
+            const area = parseFloat(document.getElementById('area').value);
+
+            // Simplified fertilizer recommendations (N-P-K in kg/ha)
+            const recommendations = {
+                tomato: { alluvial: [120, 60, 60], black: [100, 50, 50], red: [140, 70, 70], laterite: [160, 80, 80] },
+                potato: { alluvial: [150, 100, 120], black: [130, 90, 110], red: [170, 110, 130], laterite: [190, 120, 140] },
+                rice: { alluvial: [120, 60, 60], black: [100, 50, 50], red: [140, 70, 70], laterite: [160, 80, 80] },
+                wheat: { alluvial: [120, 60, 40], black: [100, 50, 30], red: [140, 70, 50], laterite: [160, 80, 60] },
+                maize: { alluvial: [150, 75, 75], black: [130, 65, 65], red: [170, 85, 85], laterite: [190, 95, 95] }
+            };
+
+            // Fertilizer prices (simplified, in Rs. per kg)
+            const prices = {
+                urea: 5.36,  // 46% N
+                dap: 24.0,   // 18% N, 46% P
+                mop: 17.0    // 60% K
+            };
+
+            const fertilizer = recommendations[crop][soilType];
+            const [n, p, k] = fertilizer.map(v => v * area);
+
+            // Calculate required fertilizer amounts
+            const ureaAmount = (n / 0.46).toFixed(2);
+            const dapAmount = (p / 0.46).toFixed(2);
+            const mopAmount = (k / 0.60).toFixed(2);
+
+            // Calculate costs
+            const ureaCost = (ureaAmount * prices.urea).toFixed(2);
+            const dapCost = (dapAmount * prices.dap).toFixed(2);
+            const mopCost = (mopAmount * prices.mop).toFixed(2);
+            const totalCost = (parseFloat(ureaCost) + parseFloat(dapCost) + parseFloat(mopCost)).toFixed(2);
+
+            // Fertilizer suggestions based on crop
+            const fertilizerSuggestions = {
+                tomato: "calcium nitrate, potassium nitrate, and magnesium sulfate",
+                potato: "ammonium sulfate, single superphosphate, and potassium sulfate",
+                rice: "urea, diammonium phosphate (DAP), and muriate of potash (MOP)",
+                wheat: "urea, DAP, and zinc sulfate",
+                maize: "urea, NPK complex (15-15-15), and zinc sulfate"
+            };
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>Recommended Fertilizer Application:</h3>
+                <p>For your ${area} hectare(s) of ${crop} on ${soilType} soil:</p>
+                <ul>
+                    <li>Urea: ${ureaAmount} kg (₹${ureaCost})</li>
+                    <li>DAP: ${dapAmount} kg (₹${dapCost})</li>
+                    <li>MOP: ${mopAmount} kg (₹${mopCost})</li>
+                </ul>
+                <p><strong>Total Estimated Cost: ₹${totalCost}</strong></p>
+                <p><strong>Suggested Fertilizers:</strong> ${fertilizerSuggestions[crop]}</p>
+                <p>Note: These are general recommendations. For precise applications, consider soil testing and consulting with local agricultural experts.</p>
+            `;
+            resultDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

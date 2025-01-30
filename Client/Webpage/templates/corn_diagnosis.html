@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potato Disease Diagnosis</title>
+    <link rel="stylesheet" href="href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="diagnosis-wrapper">
+        <h1>Corn Disease Diagnosis</h1>
+        <div class="plant-details">
+            <img src="C:\Users\Pranesh morde\OneDrive\Desktop\miniproject\images\corn.jpeg" alt="Corn">
+            <h3>Corn</h3>
+            <p>Select a Corn leaf image to diagnose for possible diseases.</p>
+        </div>
+        <div id="upload-section" style="margin-top: 20px;">
+            <form id="upload-form" action="{% url 'bell_pepper_diagnosis' %}" method="post" enctype="multipart/form-data">
+                <label for="image">Upload the image of Corn leaf for diagnosis:</label>
+                <input type="file" name="image" id="image" required onchange="previewImage(event)">
+                <button type="submit">Upload</button>
+            </form>
+            <div id="image-preview" style="margin-top: 20px;">
+                <h3>Uploaded Image:</h3>
+                <img id="uploaded-image" src="" alt="Image Preview" style="max-width: 100%; display: none;">
+            </div>
+            <div id="result-section" style="margin-top: 20px; display:none;">
+                <h2>Diagnosis Result</h2>
+                <p id="result-text"></p>
+                <h2>Suggested Remedy</h2>
+                <p id="remedy-text"></p>
+            </div>
+        </div>
+    </div>

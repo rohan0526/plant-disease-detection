@@ -1,0 +1,185 @@
+/* General Reset */
+body, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+/* Header Section */
+header {
+    background-color: #0b400a;
+    padding: 2px 5px;
+    color: white;
+    text-align: center;
+}
+
+header .image {
+    transform: scale(2);
+}
+
+header .top-links {
+    background-color: #ffffffaf;
+    padding: 2px 5px;
+    text-align: right;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+header .top-links a {
+    color: rgb(0, 0, 0);
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+header h1 {
+    position: relative;
+    font-size: 2.5em;
+    margin-bottom: -3px;
+    margin-top: 30px;
+}
+
+header p {
+    font-size: 1.2em;
+    margin-bottom: 2px;
+}
+
+/* Main Navigation Icons */
+.nav-icons {
+    top: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    background-image: url('/static/images/wer.jpg');
+    background-size: cover; /* Optional: to cover the entire area */
+}
+
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.icon img {
+    width: 100px; /* Adjust the size of the icon as needed */
+    height: 100px; /* Ensure the icons are uniform in size */
+    margin-bottom: 10px; /* Space between the icon and the text */
+    border-radius: 50%; /* Make the icons circular */
+}
+
+.icon p {
+    margin: 0;
+    font-size: 16px; /* Adjust font size as needed */
+    color: #333; /* Adjust the text color as needed */
+    font-weight: bold; /* Make the text bold if needed */
+}
+
+/* Information Section */
+.info-box {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Section */
+footer {
+    background-color: #2d572c;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+/* Additional Styles */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #333;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 15px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.card h3 {
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.plant-item {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.plant-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.plant-item h3 {
+    margin-top: 10px;
+}
+
+.plant-item:hover {
+    transform: scale(1.05);
+}
+
+#upload-section {
+    margin-top: 20px;
+}
