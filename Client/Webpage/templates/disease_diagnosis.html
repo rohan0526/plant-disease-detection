@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Disease Diagnostic Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+       body {
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  margin: 0rem;
+  overflow: hidden;
+  background-image: url("{{ url_for('static', filename='images/wer.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+}
+
+.diagnosis-wrapper2 h1 {
+  position: absolute; /* Allows us to move it freely */
+  top: 10%; /* Adjust this value to position it vertically */
+  left: 35%; /* Center the h1 both horizontally and vertically */
+  font-size: 4rem; /* Adjust font size as needed */
+  color: green;
+  text-shadow: 2px 2px 4px rgba(18, 59, 14, 0.901);
+}
+
+#image-track {
+  display: flex;
+  gap: 2vmin;
+  align-self: center;
+  position: absolute;
+  left: 40%;
+  top: 45%;
+  user-select: none; /* -- Prevent image highlighting -- */
+  transform: translate(0%, -50%) scale(1.5); /* Keep translate to maintain positioning */
+  user-select: none; /* Prevent selection */
+  will-change: transform; /* Optimize for performance */
+  transition: transform 0.2s ease; /* Smooth transition when moving */
+}
+
+#image-track > .image {
+
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
+    </style>
+</head>
+<body>
+    <div class="diagnosis-wrapper2">
+        <h1><font color="green">Disease Diagnosis</font></h1>
+        <div id="image-track">
+            <a draggable="false" href="{{ url_for('potato_diagnosis') }}" class="plant-item">
+                <img class="image" draggable="false"  src="{{ url_for('static', filename='images/potato.png') }}" alt="Potato Leaves">
+                <h3>Potato Leaves</h3>
+            </a>
+            <a draggable="false"  href="{{ url_for('tomato_diagnosis') }}" class="plant-item">
+                <img class="image" draggable="false"  src="{{ url_for('static', filename='images/tomato.png') }}" alt="Tomato">
+                <h3>Tomato Leaves</h3>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+const track = document.getElementById("image-track");
+
+// When the user clicks (or touches) and starts dragging
+const handleOnDown = e => {
+  track.dataset.mouseDownAt = e.clientX || e.touches[0].clientX; // Store the initial mouse/touch position
+  track.dataset.prevPercentage = track.dataset.prevPercentage || '0'; // If there's no previous percentage, default to 0
+};
+
+// When the user releases the mouse or touch
+const handleOnUp = () => {
+  track.dataset.mouseDownAt = '0'; // Reset the mouse down position
+  track.dataset.prevPercentage = track.dataset.percentage; // Save the percentage when the user stops dragging
+
+  // Apply the current transform when the user stops dragging to maintain position and scaling
+  track.style.transform = `translate(${track.dataset.percentage}%, -50%) scale(1.5)`; 
+
+  // Optional: If you want to ensure the smooth transition continues after mouse release
+  track.style.transition = 'transform 0.2s ease';
+};
+
+// When the user moves the mouse or touches the screen while dragging
+const handleOnMove = e => {
+  if (track.dataset.mouseDownAt === '0') return; // If there's no initial mouse down, do nothing
+
+  // Get current clientX or touch position
+  const clientX = e.clientX || e.touches[0].clientX;
+
+  // Calculate how far the mouse/touch has moved from the initial position
+  const mouseDelta = parseFloat(track.dataset.mouseDownAt) - clientX;
+  
+  // Set a maxDelta to control the range of the movement
+  const maxDelta = window.innerWidth / 2;
+
+  // Convert the mouse delta into a percentage based on the window width
+  const percentage = (mouseDelta / maxDelta) * -100;
+
+  // Add the new percentage to the previous value (to accumulate movement)
+  const nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
+
+  // Constrain the next percentage between -100% and 0%
+  const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+
+  // Update the dataset with the new percentage value
+  track.dataset.percentage = nextPercentage;
+
+  // Move the track (container) using the percentage
+  track.style.transform = `translate(${nextPercentage}%, -50%)`;
+
+  // Move the images inside the track by adjusting their object position for the parallax effect
+  for (const image of track.getElementsByClassName("image")) {
+    image.style.objectPosition = `${100 + nextPercentage}% center`;
+  }
+};
+
+// Add support for scrolling to move the track horizontally, only when hovered
+const handleOnScroll = e => {
+  // Check if the cursor is over the image track
+  const isHovered = track.matches(':hover');
+  
+  if (isHovered) {
+    // Get the scroll delta (positive for scrolling down, negative for scrolling up)
+    const scrollDelta = e.deltaY;
+
+    // Set a maxDelta to control the range of the movement based on the scroll wheel
+    const maxDelta = window.innerWidth / 2;
+
+    // Convert the scroll delta into a percentage (multiplied by a constant to adjust sensitivity)
+    const percentage = (scrollDelta / maxDelta) * 100;
+
+    // Add the new percentage to the previous value (to accumulate movement)
+    const nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) - percentage;
+
+    // Constrain the next percentage between -100% and 0%
+    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+
+    // Update the dataset with the new percentage value
+    track.dataset.percentage = nextPercentage;
+
+    // Move the track (container) using the percentage
+    track.style.transform = `translate(${nextPercentage}%, -50%)`;
+
+    // Move the images inside the track by adjusting their object position for the parallax effect
+    for (const image of track.getElementsByClassName("image")) {
+      image.style.objectPosition = `${100 + nextPercentage}% center`;
+    }
+
+    // Prevent default vertical scrolling behavior
+    e.preventDefault();
+  }
+};
+
+const onScrollStop = () => {
+    
+  track.dataset.mouseDownAt = '0'; // Reset the mouse down position
+  track.dataset.prevPercentage = track.dataset.percentage; // Save the percentage when the user stops dragging
+
+  // Apply the current transform when the user stops dragging to maintain position and scaling
+  track.style.transform = `translate(${track.dataset.percentage}%, -50%) scale(1.5)`; 
+
+  // Optional: If you want to ensure the smooth transition continues after mouse release
+  track.style.transition = 'transform 0.2s ease';
+
+  
+};
+// Attach event listeners for both mouse and touch interactions
+
+// Mouse events
+window.onmousedown = e => handleOnDown(e);
+window.onmouseup = handleOnUp;
+window.onmousemove = e => handleOnMove(e);
+
+// Touch events
+window.ontouchstart = e => handleOnDown(e);
+window.ontouchend = handleOnUp;
+window.ontouchmove = e => handleOnMove(e);
+
+// Scroll event, but only activate when hovering over the track
+window.onwheel = handleOnScroll;
+
+</script>

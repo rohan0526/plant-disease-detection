@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Diagnostic Portal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Style for the video container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 860px;
+            overflow: hidden;
+        }
+
+        /* Styling the video to cover the container */
+        .video-container video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video covers the container */
+            transform: translate(-50%, -50%);
+        }
+
+        /* Overlay text on video */
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 2; /* Ensures text stays on top */
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgb(255, 255, 255);
+        }
+
+        .hero-text p {
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="top-links">
+            <a href="#">Login</a>
+            <a href="#">Signup</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Help</a>
+        </div>
+    </header>
+
+    <!-- Video Section -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='images/farm-background.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-text">
+            <h1>Plant Disease Diagnostic Portal</h1>
+            <p>Your AI-powered assistant for crop and livestock health</p>
+        </div>
+    </div>
+
+    <!-- Main Navigation (Circular Icons) -->
+    <div class="nav-icons">
+        <a href="{{ url_for('disease_diagnosis') }}">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/DD.png') }}" alt="Diagnosis">
+                <p>Disease Diagnosis</p>
+            </div>
+        </a>
+
+        <a href="ai_assistant.html">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/Ai.png') }}" alt="AI Assistant">
+                <p>AI Assistant</p>
+            </div>
+        </a>
+
+        <a href="report_issue.html">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/report.jpeg') }}" alt="Report Issue">
+                <p>My Reports</p>
+            </div>
+        </a>
+
+        <a href="{{ url_for('fertilizer_calculator') }}">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/calci.png') }}" alt="Fertilizer Calculator">
+                <p>Fertilizer Calculator</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- Information Section -->
+    <div class="info-box">
+        <h2>Welcome to the Plant Disease Diagnostic Portal</h2>
+        <p>We empower farmers with the tools to diagnose and manage diseases affecting their crops and livestock.</p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Farm Disease Diagnostic Portal. All rights reserved.</p>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Social Media</a>
+    </footer>
+</body>
+</html>
