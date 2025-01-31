@@ -17,3 +17,7 @@ Download the app here: [Plant Disease Detection App APK](https://drive.google.co
 2. Enable installation from unknown sources in your phone settings.
 3. Install and open the app.
 4. Upload plant images to detect diseases.
+
+
+
+DEMO VIDEO:- https://youtube.com/shorts/xji3RWPZu78?feature=share
